@@ -270,12 +270,12 @@ class GitMindIntegrationTests(unittest.TestCase):
         self.assertEqual(insert_count, 3)
         self.assertTrue(mock_session.run.called)
 
-        print(f"  ✅ GitHubIngester class: imported successfully")
-        print(f"  ✅ Commits parsed:        {len(mock_gh_commits)}")
-        print(f"  ✅ Commits written:       {insert_count}")
-        print(f"  ✅ Neo4j session called:  {mock_session.run.called}")
-        print(f"  ✅ Snowflake cursor used: {mock_sf.cursor.called}")
-        print("  PASSED ✅")
+        print(f"   GitHubIngester class: imported successfully")
+        print(f"   Commits parsed:        {len(mock_gh_commits)}")
+        print(f"   Commits written:       {insert_count}")
+        print(f"   Neo4j session called:  {mock_session.run.called}")
+        print(f"   Snowflake cursor used: {mock_sf.cursor.called}")
+        print("  PASSED ")
 
     def test_2_graph_build(self):
         print("\n" + "─"*55)
@@ -304,13 +304,13 @@ class GitMindIntegrationTests(unittest.TestCase):
         self.assertEqual(edge_data["type"], "REFERENCES")
         self.assertEqual(edge_data["confidence"], 1.0)
 
-        print(f"  ✅ COMMIT nodes: {len(commit_nodes)}")
-        print(f"  ✅ TICKET nodes: {len(ticket_nodes)}")
-        print(f"  ✅ SLACK nodes:  {len(slack_nodes)}")
-        print(f"  ✅ ADR nodes:    {len(adr_nodes)}")
-        print(f"  ✅ Total edges:  {G.number_of_edges()}")
-        print(f"  ✅ Key edges verified")
-        print("  PASSED ✅")
+        print(f"   COMMIT nodes: {len(commit_nodes)}")
+        print(f"   TICKET nodes: {len(ticket_nodes)}")
+        print(f"   SLACK nodes:  {len(slack_nodes)}")
+        print(f"   ADR nodes:    {len(adr_nodes)}")
+        print(f"   Total edges:  {G.number_of_edges()}")
+        print(f"   Key edges verified")
+        print("  PASSED ")
 
     def test_3_causal_traversal(self):
         print("\n" + "─"*55)
@@ -363,13 +363,13 @@ class GitMindIntegrationTests(unittest.TestCase):
         self.assertIn("ADR_ADR-002", [a["node_id"] for a in result["adrs"]])
         self.assertGreater(result["confidence"], 0.5)
 
-        print(f"  ✅ root_cause_summary: present and non-empty")
-        print(f"  ✅ commits found:      {len(result['commits'])}")
-        print(f"  ✅ tickets found:      {len(result['tickets'])}")
-        print(f"  ✅ ADRs found:         {len(result['adrs'])}")
-        print(f"  ✅ ADR-002 in chain:   True")
-        print(f"  ✅ confidence:         {result['confidence']}")
-        print("  PASSED ✅")
+        print(f"   root_cause_summary: present and non-empty")
+        print(f"   commits found:      {len(result['commits'])}")
+        print(f"   tickets found:      {len(result['tickets'])}")
+        print(f"   ADRs found:         {len(result['adrs'])}")
+        print(f"   ADR-002 in chain:   True")
+        print(f"   confidence:         {result['confidence']}")
+        print("  PASSED ")
 
     def test_4_patch_generation(self):
         print("\n" + "─"*55)
@@ -407,13 +407,13 @@ class GitMindIntegrationTests(unittest.TestCase):
         self.assertIsInstance(result["regression_safe"], bool)
         self.assertTrue(mock_gitmind_module.debug.called)
 
-        print(f"  ✅ debug() function:       called successfully")
-        print(f"  ✅ 'patch' key present:    True")
-        print(f"  ✅ 'root_cause' present:   True")
-        print(f"  ✅ 'evidence_chain':       {len(result['evidence_chain'])} items")
-        print(f"  ✅ regression_safe:        {result['regression_safe']}")
-        print(f"  ✅ debug() was called:     {mock_gitmind_module.debug.called}")
-        print("  PASSED ✅")
+        print(f"   debug() function:       called successfully")
+        print(f"   'patch' key present:    True")
+        print(f"   'root_cause' present:   True")
+        print(f"   'evidence_chain':       {len(result['evidence_chain'])} items")
+        print(f"   regression_safe:        {result['regression_safe']}")
+        print(f"   debug() was called:     {mock_gitmind_module.debug.called}")
+        print("  PASSED ")
 
     def test_5_regression_check(self):
         print("\n" + "─"*55)
@@ -466,13 +466,13 @@ class GitMindIntegrationTests(unittest.TestCase):
         self.assertIn(result["overall_status"], ["SAFE", "WARNING", "VIOLATION"])
         self.assertIn("message", result)
 
-        print(f"  ✅ 'safe' key present:        True ({result['safe']})")
-        print(f"  ✅ 'violations' key present:  True ({len(result['violations'])} items)")
-        print(f"  ✅ safe is boolean:           True")
-        print(f"  ✅ violations is list:        True")
-        print(f"  ✅ overall_status:            {result['overall_status']}")
-        print(f"  ✅ message:                   {result['message'][:55]}...")
-        print("  PASSED ✅")
+        print(f"   'safe' key present:        True ({result['safe']})")
+        print(f"   'violations' key present:  True ({len(result['violations'])} items)")
+        print(f"   safe is boolean:           True")
+        print(f"   violations is list:        True")
+        print(f"   overall_status:            {result['overall_status']}")
+        print(f"   message:                   {result['message'][:55]}...")
+        print("  PASSED ")
 
     def test_6_full_pipeline(self):
         print("\n" + "─"*55)
@@ -503,12 +503,12 @@ class GitMindIntegrationTests(unittest.TestCase):
                     "slack": MOCK_SLACK_MESSAGES, "adrs": [MOCK_ADR]}
             self.assertEqual(len(data["commits"]), 3)
             self.assertEqual(len(data["tickets"]), 2)
-            print(f"  ✅ Data: {len(data['commits'])} commits, {len(data['tickets'])} tickets")
+            print(f"   Data: {len(data['commits'])} commits, {len(data['tickets'])} tickets")
 
             print("  Stage 2: Building knowledge graph...")
             G = build_mock_graph()
             self.assertIsNotNone(G)
-            print(f"  ✅ Graph: {G.number_of_nodes()} nodes, {G.number_of_edges()} edges")
+            print(f"   Graph: {G.number_of_nodes()} nodes, {G.number_of_edges()} edges")
 
             print("  Stage 3: Running GitMind debug()...")
             rt = ga2.GitMindRuntime(llm_config=mock_llm_cfg_val, use_placeholders=True)
@@ -529,13 +529,13 @@ class GitMindIntegrationTests(unittest.TestCase):
         self.assertIn("---", result["patch"])
         self.assertTrue(mock_gitmind_module.debug.called)
 
-        print(f"  ✅ All {len(required_keys)} required keys present")
-        print(f"  ✅ Type validation passed")
-        print(f"  ✅ root_cause: {result['root_cause'][:55]}...")
-        print(f"  ✅ evidence_chain: {len(result['evidence_chain'])} items")
-        print(f"  ✅ regression_safe: {result['regression_safe']}")
-        print(f"  ✅ debug() was called: {mock_gitmind_module.debug.called}")
-        print("  PASSED ✅")
+        print(f"   All {len(required_keys)} required keys present")
+        print(f"   Type validation passed")
+        print(f"   root_cause: {result['root_cause'][:55]}...")
+        print(f"   evidence_chain: {len(result['evidence_chain'])} items")
+        print(f"   regression_safe: {result['regression_safe']}")
+        print(f"   debug() was called: {mock_gitmind_module.debug.called}")
+        print("  PASSED ")
 
 
 # ─────────────────────────────────────────────
@@ -586,11 +586,11 @@ All services must use SQL.
         self.assertGreater(len(result["context_text"]), 0)
         self.assertGreater(len(result["consequences_text"]), 0)
 
-        print(f"  ✅ adr_id:      {result['adr_id']}")
-        print(f"  ✅ status:      {result['status']}")
-        print(f"  ✅ date:        {result['date']}")
-        print(f"  ✅ structured:  {result['is_structured']}")
-        print("  PASSED ✅")
+        print(f"   adr_id:      {result['adr_id']}")
+        print(f"   status:      {result['status']}")
+        print(f"   date:        {result['date']}")
+        print(f"   structured:  {result['is_structured']}")
+        print("  PASSED ")
 
     def test_adr_parser_unstructured(self):
         print("\n" + "─"*55)
@@ -620,9 +620,9 @@ Agreed in sprint meeting. No formal sections.
         self.assertIsNotNone(result["unstructured_content"])
         self.assertGreater(len(result["unstructured_content"]), 0)
 
-        print(f"  ✅ is_structured:          False (correctly detected)")
-        print(f"  ✅ unstructured_content:   present ({len(result['unstructured_content'])} chars)")
-        print("  PASSED ✅")
+        print(f"   is_structured:          False (correctly detected)")
+        print(f"   unstructured_content:   present ({len(result['unstructured_content'])} chars)")
+        print("  PASSED ")
 
 
 # ─────────────────────────────────────────────
@@ -654,12 +654,12 @@ class ConfigTests(unittest.TestCase):
         self.assertIn("_require_env", config_content,
             "config.py should validate required env vars")
 
-        print(f"  ✅ config.py found at project root")
-        print(f"  ✅ GitMindConfigError defined: True")
-        print(f"  ✅ GitMindConfig defined: True")
-        print(f"  ✅ from_env() method present: True")
-        print(f"  ✅ _require_env() validation present: True")
-        print("  PASSED ✅")
+        print(f"   config.py found at project root")
+        print(f"   GitMindConfigError defined: True")
+        print(f"   GitMindConfig defined: True")
+        print(f"   from_env() method present: True")
+        print(f"   _require_env() validation present: True")
+        print("  PASSED ")
 
 
 # ─────────────────────────────────────────────
@@ -668,7 +668,7 @@ class ConfigTests(unittest.TestCase):
 
 if __name__ == "__main__":
     print("\n" + "="*60)
-    print("🧠 GitMind — Integration Test Suite")
+    print(" GitMind — Integration Test Suite")
     print("  Using Ansh's real classes:")
     print("  GitHubIngester, SlackIngester, JiraIngester,")
     print("  SnowflakeClient, GitMindRuntime, debug()")
@@ -688,10 +688,10 @@ if __name__ == "__main__":
 
     print("\n" + "="*60)
     if result.wasSuccessful():
-        print("ALL TESTS PASSED ✅")
+        print("ALL TESTS PASSED ")
         print("GitMind pipeline verified using Ansh's real classes.")
     else:
-        print(f"SOME TESTS FAILED ❌")
+        print(f"SOME TESTS FAILED")
         print(f"Failures: {len(result.failures)}")
         print(f"Errors:   {len(result.errors)}")
     print("="*60)

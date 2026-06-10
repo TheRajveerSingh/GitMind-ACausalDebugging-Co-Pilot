@@ -496,7 +496,7 @@ def run_adr_pipeline(docs_path: str):
     print("="*60)
 
     # --- Step 1: Find files ---
-    print(f"\n📁 Scanning: {docs_path}")
+    print(f"\n[*] Scanning: {docs_path}")
     files = find_adr_files(docs_path)
 
     if not files:
@@ -504,7 +504,7 @@ def run_adr_pipeline(docs_path: str):
         return
 
     # --- Step 2: Parse all files ---
-    print(f"\n📄 Parsing {len(files)} files...")
+    print(f"\n[*] Parsing {len(files)} files...")
     parsed_adrs = []
     parse_errors = 0
 
@@ -513,14 +513,14 @@ def run_adr_pipeline(docs_path: str):
         result = parse_adr_file(file_path)
         if result:
             parsed_adrs.append(result)
-            structured = "✅ structured" if result['is_structured'] else "⚠️  unstructured"
+            structured = "[OK] structured" if result['is_structured'] else "[!] unstructured"
             print(f"    → {result['adr_id']}: {result['title'][:50]} [{result['status']}] {structured}")
         else:
             parse_errors += 1
             print(f"    → FAILED to parse")
 
     # --- Step 3: Connect to Snowflake ---
-    print(f"\n❄️  Connecting to Snowflake...")
+    print(f"\n[*] Connecting to Snowflake...")
     sf_conn = get_snowflake_connection()
     sf_inserted = 0
     sf_updated = 0
@@ -549,7 +549,7 @@ def run_adr_pipeline(docs_path: str):
         print(f"  Snowflake skipped — no credentials")
 
     # --- Step 4: Connect to Neo4j ---
-    print(f"\n🕸️  Connecting to Neo4j...")
+    print(f"\n[*] Connecting to Neo4j...")
     neo4j_driver = get_neo4j_driver()
     neo4j_created = 0
     neo4j_skipped = 0
@@ -677,7 +677,7 @@ This was discussed in the March sprint planning session.
             result = parse_adr_file(f)
             if result:
                 parsed.append(result)
-                print(f"✅ Parsed: {result['adr_id']}")
+                print(f"[OK] Parsed: {result['adr_id']}")
                 print(f"   Title:    {result['title']}")
                 print(f"   Status:   {result['status']}")
                 print(f"   Date:     {result['date']}")
@@ -689,7 +689,7 @@ This was discussed in the March sprint planning session.
 
         print("="*60)
         print(f"TEST COMPLETE: Parsed {len(parsed)}/{len(files)} ADR files successfully")
-        print("Parser is working correctly ✅")
+        print("Parser is working correctly [OK]")
         print("="*60)
         print("\nTo use with real data:")
         print("  python backend/ingestion/adr_parser.py --path /path/to/your/repo")
